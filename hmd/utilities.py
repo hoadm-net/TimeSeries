@@ -17,3 +17,7 @@ def plot_ts_with_significant_point(ts) -> None:
         ax.plot(sp - 1, ts[sp], 'or', fillstyle='none', ms=10)
 
     plt.show()
+
+
+def ts_2_list(ts) -> list:
+    return [point[0] for point in ts]
