@@ -19,16 +19,19 @@ def get_candidate_motifs(ts: np.ndarray, significant_points: list) -> list:
     return candidates
 
 
-def standardize_motifs(motifs: list, new_length: int) -> list:
+def standardize_motifs(motifs: list) -> list:
     """
         Standardize all motifs in the input list, use the method homothety_transform parses all
         candidate motifs into same length
     :param motifs: list timeseries
-    :param new_length: new length
     :return: list new motifs in the same length
     """
+
+    min_length = sum([ts.shape[0] for ts in motifs]) // len(motifs)
+    filtered_motifs = [ts for ts in motifs if ts.shape[0] >= min_length]
+    new_length = sum([ts.shape[0] for ts in filtered_motifs]) // len(filtered_motifs)
     new_motifs = []
-    for m in motifs:
+    for m in filtered_motifs:
         ts = homothety_transform(m, new_length)
         new_motifs.append(ts)
 
